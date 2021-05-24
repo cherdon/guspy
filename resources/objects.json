@@ -1,0 +1,70 @@
+{
+  "Case": {
+    "Object":  "Case",
+    "Release.Id": "SM_Release__c",
+    "CaseNumber": "CaseNumber",
+    "Description": "Description",
+    "Team": "Team_Lookup__c"
+  },
+
+  "CaseComment": {
+    "Object":  "CaseComment",
+    "Created.Name": "CreatedBy.Name",
+    "Created.Date": "CreatedDate",
+    "Body": "CommentBody",
+    "ParentId": "ParentId",
+    "Id": "Id"
+  },
+
+  "InstanceDatacenter": {
+    "Object":  "SM_Instance_Datacenter_Connector__c",
+    "Lifecycle": "Lifecycle_Status__c"
+  },
+
+  "Release": {
+    "Object": "ADM_Release__c",
+    "Name": "Name"
+  },
+
+  "ReleaseEvent": {
+    "Object": "ADM_Release_Event__c",
+    "Case": "ChangeCase__c",
+    "Start": "Scheduled_Start__c",
+    "End": "Scheduled_End__c",
+    "Instance": "Deployment_Instances__c"
+  },
+
+  "Work": {
+    "Object": "ADM_Work__c"
+  },
+
+  "ERelease": {
+    "Object": "eRelease_Request__c"
+  },
+
+  "Account": {
+    "Object": "Account"
+  },
+
+  "Instance": {
+    "Object": "SM_Production_Instance__c"
+  },
+
+  "ScrumTeam": {
+    "Object": "ADM_Scrum_Team__c"
+  },
+
+  "ScrumMember": {
+    "Object": "ADM_Scrum_Team_Member__c",
+    "MemberName": "Member_Name__c",
+    "TeamName": "Scrum_Team_Name__c"
+  },
+
+  "User": {
+    "Object": "User"
+  },
+
+  "Task": {
+    "Object": "Task",
+    "Case": "WhatId"
+  }

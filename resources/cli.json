@@ -1,0 +1,11 @@
+{
+  "DataCenter": ["Datacenter:"],
+  "Status": ["Status:"],
+  "Instance": ["-instance", "-cluster"],
+  "Superpod": ["-superpod"],
+  "Command": ["-c"],
+  "Version": ["-versions"],
+  "Chatter": ["-chatter_status_group"],
+  "Dwarf": ["-u"],
+  "Type": ["Type:"]
+}
