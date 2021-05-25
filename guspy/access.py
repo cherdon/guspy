@@ -1,17 +1,21 @@
 from simple_salesforce import Salesforce, SalesforceLogin
+from simple_salesforce.exceptions import SalesforceAuthenticationFailed
 import pandas as pd
 
 
 class Gus:
-    def __init__(self, username, password):
+    def __init__(self, username, password, otp):
         self.username = username
         self.password = password
+        self.otp = otp
         self.soql = self.connect()
 
-    def get_instance(self):
+    def get_instance(self, otp=None):
+        if otp:
+            self.otp = otp
         try:
             session_id, instance = SalesforceLogin(username=self.username,
-                                                   password=self.password)
+                                                   password=self.password + "." + self.otp)
         except Exception as e:
             session_id, instance = None, None
             print(e)                                # TODO ERROR LOGGING IN
@@ -22,7 +26,16 @@ class Gus:
         if instance:
             return Salesforce(session_id=session_id,
                               instance=instance)
-        else:
+        elif SalesforceAuthenticationFailed:
+            # TODO ERROR CONNECTING INSTANCE
+            return None
+
+    def reconnect(self, otp):
+        session_id, instance = self.get_instance(otp=otp)
+        if instance:
+            return Salesforce(session_id=session_id,
+                              instance=instance)
+        elif SalesforceAuthenticationFailed:
             # TODO ERROR CONNECTING INSTANCE
             return None
 

@@ -1,7 +1,9 @@
 # guspy
 Gus Python library that allows for simple SOQL queries on GUS, as well as Authentication to GUS.
 
-Current Version: `0.12`
+Current Version: `1.0`
+
+**Quickfix Applied on Major Version 1.0 for dependencies changes to 2FA authentication. Now, you need to access with your 2FA password in the Salesforce Authenticator.
 
 ## Installation
 To install, simply use your virtualenv:
@@ -100,12 +102,20 @@ To be updated
 -------------
 ```
 from guspy.access import Gus
-gus = Gus(username=username,
-          password=password).connect()
+gus = Gus(username=<USERNAME@ORGANIZATION>,
+          password=<PASSWORD>,
+          otp=<2FA TOKEN>).connect()
 ```
+Take note to login with the organization provided. For internal salesforce users, either use @salesforce.com or @gus.com, etc.
+
 Upon logging in, use the commands above to get the query string for the object required (CaseComments, ReleaseEvents, etc.) before executing the following command:
 ```
 gus.raw(<REQUIRED_QUERY>)
 gus.parse(<REQUIRED_QUERY>)
 ```
 Where `raw` will return the raw data, and `parse` will return in a DataFrame format.
+
+If unable to access after a certain time, please execute the following with a fresh 2FA token to reconnect:
+```
+gus.reconnect(otp=<2FA TOKEN>)
+```
