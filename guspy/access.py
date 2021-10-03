@@ -1,10 +1,10 @@
 from simple_salesforce import Salesforce, SalesforceLogin
-from simple_salesforce.exceptions import SalesforceAuthenticationFailed
+from simple_salesforce.exceptions import SalesforceAuthenticationFailed, SalesforceExpiredSession
 import pandas as pd
 
 
 class Gus:
-    def __init__(self, username, password, otp):
+    def __init__(self, username, password, otp=None):
         self.username = username
         self.password = password
         self.otp = otp
@@ -22,25 +22,32 @@ class Gus:
         return session_id, instance
 
     def connect(self):
-        session_id, instance = self.get_instance()
+        session_id, instance = self.get_instance(otp=self.otp)
         if instance:
             return Salesforce(session_id=session_id,
                               instance=instance)
         elif SalesforceAuthenticationFailed:
+            print("Authentication Failed, please check guspy")
             # TODO ERROR CONNECTING INSTANCE
             return None
 
     def reconnect(self, otp):
-        session_id, instance = self.get_instance(otp=otp)
+        self.otp = otp
+        session_id, instance = self.get_instance(otp=self.otp)
         if instance:
             return Salesforce(session_id=session_id,
                               instance=instance)
         elif SalesforceAuthenticationFailed:
+            print("Authentication Failed, please check guspy")
             # TODO ERROR CONNECTING INSTANCE
             return None
 
     def raw(self, query):
-        data = self.soql.query_all(query)['records']
+        try:
+            data = self.soql.query_all(query)['records']
+        except SalesforceExpiredSession as error:
+            self.soql = self.connect()
+            data = self.soql.query_all(query)['records']
         return data
 
     def parse(self, query):
