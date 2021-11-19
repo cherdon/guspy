@@ -8,18 +8,22 @@ class Gus:
         self.username = username
         self.password = password
         self.otp = otp
+        self.session_id, self.instance = None, None
         self.soql = self.connect()
 
     def get_instance(self, otp=None):
         if otp:
             self.otp = otp
         try:
-            session_id, instance = SalesforceLogin(username=self.username,
-                                                   password=self.password + "." + self.otp)
+            if self.otp:
+                self.session_id, self.instance = SalesforceLogin(username=self.username,
+                                                                 password=self.password + "." + self.otp)
+            else:
+                self.session_id, self.instance = SalesforceLogin(username=self.username,
+                                                                 password=self.password)
         except Exception as e:
-            session_id, instance = None, None
             print(e)                                # TODO ERROR LOGGING IN
-        return session_id, instance
+        return self.session_id, self.instance
 
     def connect(self):
         session_id, instance = self.get_instance(otp=self.otp)
@@ -31,9 +35,12 @@ class Gus:
             # TODO ERROR CONNECTING INSTANCE
             return None
 
-    def reconnect(self, otp):
-        self.otp = otp
-        session_id, instance = self.get_instance(otp=self.otp)
+    def reconnect(self, otp=None):
+        if otp:
+            self.otp = otp
+            session_id, instance = self.get_instance(otp=otp)
+        else:
+            session_id, instance = self.get_instance()
         if instance:
             return Salesforce(session_id=session_id,
                               instance=instance)
@@ -46,7 +53,7 @@ class Gus:
         try:
             data = self.soql.query_all(query)['records']
         except SalesforceExpiredSession as error:
-            self.soql = self.connect()
+            self.soql = self.reconnect()
             data = self.soql.query_all(query)['records']
         return data
 
