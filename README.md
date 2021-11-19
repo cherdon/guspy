@@ -1,7 +1,7 @@
 # guspy
 Gus Python library that allows for simple SOQL queries on GUS, as well as Authentication to GUS.
 
-Current Version: `1.22`
+Current Version: `1.23`
 
 **Quickfix Applied on Major Version 1.0 for dependencies changes to 2FA authentication. Now, you need to access with your 2FA password in the Salesforce Authenticator.
 
