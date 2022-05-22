@@ -1,9 +1,8 @@
 # guspy
-[![Version](https://img.shields.io/badge/version-v2.01-blue)](https://git.soma.salesforce.com/cherdon-liew/Taskmaster)
+[![Version](https://img.shields.io/badge/version-v2.11-blue)](https://git.soma.salesforce.com/cherdon-liew/Taskmaster)
 
 Gus Python library that allows for simple SOQL queries on GUS, as well as Authentication to GUS.
 
-Current Version: `2.01`
 
 ** There is a substantial change to the format of querying in v2.0+, where it allows for more specific filters and arrangement of the data acquired from GUS
 
@@ -149,6 +148,14 @@ To be updated
 To be updated
 
 **InstanceDatacenter Object**
+-------------
+To be updated
+
+**LogicalHost Object**
+-------------
+To be updated
+
+**RecordType Object**
 -------------
 To be updated
 

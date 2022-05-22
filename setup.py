@@ -6,7 +6,7 @@ with open("README.md", "r") as file:
 
 setuptools.setup(
     name='guspy',
-    version='2.01',
+    version='2.11',
     author='Liew Cher Don',
     author_email='liewcherdon@gmail.com',
     description='Simple Python Wrapper for common GUS Objects',
