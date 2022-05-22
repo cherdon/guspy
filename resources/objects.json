@@ -1,4 +1,13 @@
 {
+  "AppriseLogs": {
+    "Object": "SM_Release_Audit__c",
+    "Release": "Release__c",
+    "CaseId": "ChangeCase__c"
+  },
+  "Attachment": {
+    "Object": "Attachment",
+    "Content": "Body"
+  },
   "Case": {
     "Object": "Case",
     "Release.Id": "SM_Release__c",
@@ -13,6 +22,20 @@
     "Body": "CommentBody",
     "ParentId": "ParentId",
     "Id": "Id"
+  },
+  "Chatter": {
+    "Object": "CaseFeed"
+  },
+  "CIStep": {
+    "Object": "SM_Change_Implementation__c"
+  },
+  "ClusterInstanceLink": {
+    "Object": "ADM_Application_Cluster_Instance_Pr_Link__c",
+    "Instance": "Instance_Proxy__r.Name",
+    "Cluster": "Application_Cluster__r.Name"
+  },
+  "CTCLock": {
+    "Object": "goc__Configuration_Item_Lock__c"
   },
   "InstanceDatacenter": {
     "Object": "SM_Instance_Datacenter_Connector__c",

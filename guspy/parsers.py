@@ -7,9 +7,14 @@ try:
     with open(cli, 'r') as infile:
         cli = json.load(infile)
 except:
-    cli = os.path.abspath(os.path.join(sys.prefix, 'resources', 'cli.json'))
-    with open(cli, 'r') as infile:
-        cli = json.load(infile)
+    try:
+        cli = os.path.abspath(os.path.join(sys.prefix, 'resources', 'cli.json'))
+        with open(cli, 'r') as infile:
+            cli = json.load(infile)
+    except:
+        cli = os.path.abspath(os.path.join(sys.prefix, os.path.pardir, 'resources', 'cli.json'))
+        with open(cli, 'r') as infile:
+            cli = json.load(infile)
 
 
 def last_item(ls, item):

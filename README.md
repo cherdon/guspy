@@ -1,9 +1,11 @@
 # guspy
+[![Version](https://img.shields.io/badge/version-v2.01-blue)](https://git.soma.salesforce.com/cherdon-liew/Taskmaster)
+
 Gus Python library that allows for simple SOQL queries on GUS, as well as Authentication to GUS.
 
-Current Version: `1.24`
+Current Version: `2.01`
 
-**Quickfix Applied on Major Version 1.0 for dependencies changes to 2FA authentication. Now, you need to access with your 2FA password in the Salesforce Authenticator.
+** There is a substantial change to the format of querying in v2.0+, where it allows for more specific filters and arrangement of the data acquired from GUS
 
 ## Installation
 To install, simply use your virtualenv:
@@ -24,67 +26,119 @@ python3 -m twine upload dist/*
 
 Example:
 ```
-query = Case(<SPECIFICATIONS OF OBJECT>).from_single(<FIELDS REQUIRED>)
+query = Case(
+    fields=<FIELDS REQUIRED (list or str)>,
+    filters=<FILTERS EXPECTED>,
+    limit=<TOTAL NUMBER OF RESULTS>,
+    sort_by=<FIELD TO SORT BY>,
+    sort_seq=<ASC or DESC>
+)
 ```
-All queries on the objects can be summarised to accept parameters in two places (except special conditions such as GRE specific objects)
-The first is the specifications of the object itself (e.g. Case Number, etc) whereas the second is the fields required to be shown.
 
+**Filters**
+-------------
+`Filters` help to improve the specificity of the query that you want. Similar to excel commands, you encapsulate everything in brackets ()
+```
+from guspy.filters import *
+
+## Equals ##
+equals("CaseNumber", "8938202")
+# Returns "CaseNumber = '8938202'"
+
+## Within ##
+is_in("CaseNumber", ["8190582","8190583"])
+# Returns "CaseNumber IN ('8190582','8190583')"
+
+## Like ##
+like("CaseNumber", "389*", identifier="*")
+# Returns "CaseNumber LIKE '389%'"
+# This means to return all items that CaseNumber starts with 389
+
+## Including ##
+incl(filter_1, filter_2, filter_3)
+# Returns "filter_1 AND filter_2 AND filter_3"
+
+## Excluding ##
+excl(filter_1, filter_2, filter_3)
+# Returns "filter_1 OR filter_2 OR filter_3"
+
+## Quote ##
+quote(938859)
+# Returns "'938859'"
+
+## Bracket ##
+bracket(938859)
+# Returns "(938859)"
+```
+
+**General Object**
+-------------
+For GUS Objects not found in the document below, you can find out what the name of the GUS Object is, and call the query similarly with the following commands:
+```
+from guspy import GUSObject
+object = GUSObject(fields=<FIELDS>, filters=<FILTERS>)
+object.query_object(<NAME OF GUS OBJECT>)
+query = object.generate()
+```
+
+**Apprise Object**
+-------------
+To be updated
+
+**Attachment Object**
+-------------
+To be updated
 
 **Cases Object**
 -------------
 `Case` class can be initialised with the case number or list of case numbers. In which the single case_number would be using `from_single` method, and the list of case_numbers will be using the `from_multiple` method.
 ```
 from guspy import Case
-query = Case("8190582").from_single("Id")
-query = Case(["8190582","8190583"]).from_multiple("Id")
+query = Case(
+    fields="Id, CaseNumber, Release__c",
+    filters=is_in(CaseNumber, ["8190582","8190583"]),
+    sort_by="LastModified",
+    sort_seq="DESC"
+)
+query = Case(
+    fields="Id, CaseNumber, Release__c",
+    filters=equals(CaseNumber, "8190582"),
+    sort_by="LastModified",
+    sort_seq="DESC"
+)
 ```
-
-Special: GRE Cases can be simply queried.
-```
-gre_query = Case().gre("Id, CaseNumber")
-```
-
 
 **CaseComments Object**
 -------------
-`CaseComment` object can be initialised with either `case_number` or `comment_id`, in which similar to the `Case` object, would be using `from_single` or `from_multiple` functions to get a single case/comment or multiple case/comment respectively
-```
-from guspy import CaseComment
-query = CaseComment(case_number="").from_single("Id")
-query = CaseComment(case_number=["8190582","8190583"]).from_multiple("Id")
-```
+To be updated
 
-Special: GRE Cases can be simply queried
-```
-query = CaseComment().gre("Id, CommentBody")
-```
+**Chatter Object**
+-------------
+To be updated
+
+**CIStep Object**
+-------------
+To be updated
+
+**ClusterInstanceLink Object**
+-------------
+To be updated
+
+**CTCLock Object**
+-------------
+To be updated
 
 **ScrumMember Object**
 -------------
-`ScrumMember` object can be initialised with `team_name`, in which you can use `from_single` function to get attributes of the Scrum Members
-```
-from guspy import ScrumMember
-query = ScrumMember(team_name="").from_single("Id")
-```
-
-Special: GRE Cases can be simply queried
-```
-query = ScrumMember().gre("Id, Name")
-```
+To be updated
 
 **User Object**
 -------------
-`User` object can be initialised with `user_id`, in which you can use `from_single` or `from_multiple` functions to get attributes of the Users
-```
-from guspy import User
-query = User(user_id="").from_single("Id")
-query = User(user_id=["8190582","8190583"]).from_multiple("Id")
-```
+To be updated
 
-Special: GRE Cases can be simply queried
-```
-query = User().gre("Id, Division")
-```
+**Release Object**
+-------------
+To be updated
 
 **ReleaseEvent Object**
 -------------
