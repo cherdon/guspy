@@ -288,6 +288,12 @@ class RecordType(GUSObject):
         return self.generate()
 
 
+class WorkItem(GUSObject):
+    def create(self):
+        self.query_object("WorkItem")
+        return self.generate()
+
+
 # TODO deprecate this in v2.0
 # Query the CaseId by the Case Number provided (single or a list), or simply CaseIds that are related to GRE
 # class Case:

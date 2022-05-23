@@ -1,5 +1,5 @@
 # guspy
-[![Version](https://img.shields.io/badge/version-v2.11-blue)](https://git.soma.salesforce.com/cherdon-liew/Taskmaster)
+[![Version](https://img.shields.io/badge/version-v2.12-blue)](https://git.soma.salesforce.com/cherdon-liew/Taskmaster)
 
 Gus Python library that allows for simple SOQL queries on GUS, as well as Authentication to GUS.
 
@@ -159,6 +159,10 @@ To be updated
 -------------
 To be updated
 
+**WorkItem Object**
+-------------
+To be updated
+
 **Logging In**
 -------------
 ```
@@ -180,3 +184,12 @@ If unable to access after a certain time, please execute the following with a fr
 ```
 gus.reconnect(otp=<2FA TOKEN>)
 ```
+
+### Update Work Item
+To be updated
+
+### Add Chatter Post
+To be updated
+
+### Get Attachment
+To be updated

@@ -52,7 +52,7 @@
     "End": "Scheduled_End__c",
     "Instance": "Deployment_Instances__c"
   },
-  "Work": {
+  "WorkItem": {
     "Object": "ADM_Work__c"
   },
   "ERelease": {

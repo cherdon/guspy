@@ -2,6 +2,9 @@ from simple_salesforce import Salesforce, SalesforceLogin
 from simple_salesforce.exceptions import SalesforceAuthenticationFailed, SalesforceExpiredSession
 import pandas as pd
 
+GUS_BASE_URL = "https://gus.my.salesforce.com"
+GUS_CHATTER_FEED_URL = f"{GUS_BASE_URL}/services/data/v40.0/chatter/feed-elements"
+
 
 class Gus:
     def __init__(self, username, password, otp=None):
@@ -65,3 +68,44 @@ class Gus:
         else:
             data = data.drop('attributes', axis=1)
         return data
+
+    def update_work(self, id, body):
+        if not id or not body:
+            raise "[GUSPY] Both work ID and body are required to update the work item"
+        try:
+            self.soql.ADM_Work__c.update(id, body)
+        except SalesforceExpiredSession as error:
+            self.soql = self.reconnect()
+            self.soql.ADM_Work__c.update(id, body)
+        except Exception as e:
+            raise f"Seems like there was en error while updating the work: {e}"
+
+    def chatter(self, data):
+        if type(data) != dict:
+            raise f"Please return a dict object with at least body and subjectId"
+        else:
+            try:
+                res = self.soql._call_salesforce("POST", url=GUS_CHATTER_FEED_URL, data=json.dumps(data))
+                return res
+            except SalesforceExpiredSession as error:
+                self.soql = self.reconnect()
+                res = self.soql._call_salesforce("POST", url=GUS_CHATTER_FEED_URL, data=json.dumps(data))
+                return res
+            except Exception as e:
+                raise f"Chattering failed: {e}"
+
+    def get_attachment(self, attachment_url):
+        try:
+            url = f"{GUS_BASE_URL}{attachment_url}"
+            bearer = "Bearer " + self.session_id
+            header = {'Content-Type': 'application/json', 'Authorization': bearer, 'Connection': 'close'}
+            b_attachment_data = requests.get(url, headers=header).content
+            attachment = b_attachment_data.decode("utf-8")
+        except SalesforceExpiredSession as error:
+            self.soql = self.reconnect()
+            url = f"{GUS_BASE_URL}{attachment_url}"
+            bearer = "Bearer " + self.session_id
+            header = {'Content-Type': 'application/json', 'Authorization': bearer, 'Connection': 'close'}
+            b_attachment_data = requests.get(url, headers=header).content
+            attachment = b_attachment_data.decode("utf-8")
+        return attachment
