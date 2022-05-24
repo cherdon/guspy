@@ -1,0 +1,16 @@
+[run]
+omit =
+    */test*
+
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise AssertionError
+    raise NotImplementedError
+    def main():
+    if __name__ == "__main__":
+    exit
+
+[html]
+directory = htmlcov/Python

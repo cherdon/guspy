@@ -1,5 +1,5 @@
 # guspy
-[![Version](https://img.shields.io/badge/version-v2.12-blue)](https://git.soma.salesforce.com/cherdon-liew/Taskmaster)
+[![Version](https://img.shields.io/badge/version-v2.13-blue)](https://git.soma.salesforce.com/cherdon-liew/Taskmaster)
 
 Gus Python library that allows for simple SOQL queries on GUS, as well as Authentication to GUS.
 

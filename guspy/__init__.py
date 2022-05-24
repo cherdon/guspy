@@ -151,9 +151,10 @@ class CaseComment(GUSObject):
             if type(case_number) == list:
                 case_number = ",".join([f"'{number}'" for number in case_number])
             if "," in case_number:
-                self.filters(is_in("ParentId", bracket(case_number)), append="AND")
+                get_case_id = Case(filters=is_in("CaseNumber", bracket(case_number))).create()
             else:
-                self.filters(equals("ParentId", case_number), append="AND")
+                get_case_id = Case(filters=equals("CaseNumber", case_number)).create()
+            self.filters(is_in("ParentId", bracket(get_case_id)), append="AND")
         return self.generate()
 
 
